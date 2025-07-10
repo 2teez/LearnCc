@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# Date: 10 Jul, 2025
+# Description: Make a file that can make a cpp file
+# compile it and run.
+# Author: omitida
+#
+
+## Help or usage function
+# it display what the calling of the script is.
+function usage() {
+    filename="${0}"
+    echo
+    echo "Usage: ./${filename} <options> filename"
+    echo
+    echo "Avaliable Options:"
+    echo "-g    : Create a generic cpp file."
+    echo "-r    : Compile and Run a cpp file"
+}
+
+# cpp start writeup
+FILE="
+// A complete C++ Program
+#include <iostream>
+#include <string>
+
+int main(int argc, char** argv)
+{
+
+    std::cout << \"Hello, World\" << std::endl;
+
+    return 0;
+}
+"
+
+# creating a cpp file
+function create_file() {
+    filename="${1}"
+    filext="${filename#*.}"
+    [[ "${filext}" == "${filename}" ]] && filename="${filename}.cpp"
+    if [[ -e "${filename}" ]]; then
+        echo "${filename}" "exist."
+        printf "Do you want to overwrite it? [y|n]: "
+        while read ans; do
+            case "${ans,,}" in
+                y)
+                echo "// ${filename}" > "${filename}"
+                printf "${FILE}" >> "${filename}"
+                echo "${filename}" "is overwritten."
+                break
+                ;;
+                n) exit 1
+                ;;
+                *) echo "can only you use 'y' or 'n'."
+                continue
+                ;;
+            esac
+        done
+    else
+        echo "// ${filename}" > "${filename}"
+        echo "${FILE}" >> "${filename}"
+    fi
+}
+
+if [[ "${#}" != 2 ]]; then
+    usage
+fi
+
+optstring="g:r:h"
+
+while getopts "${optstring}" opt; do
+    case "${opt}" in
+        g)
+          filename="${OPTARG,,}"
+          create_file "${filename}"
+          ./"${0}" -r "${filename}"
+        ;;
+        h) usage
+           exit 1
+        ;;
+        r)
+            filename="${OPTARG}"
+            file_o_run="${filename%.*}";
+            g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            chmod +x "${file_o_run}"
+            ./"${file_o_run}"
+            rm "${file_o_run}"
+        ;;
+        *.*);;
+    esac
+done
