@@ -36,7 +36,18 @@ int main(int argc, char** argv)
 function create_file() {
     filename="${1}"
     filext="${filename#*.}"
+
+    # create a rust file
+    rust_file="${filename}.rs"
+    echo "
+#![allow(dead_code, unused)]
+
+fn main {
+  println!("Hello, World!");
+}" > "${rust_file}"
+    # make a file with cpp extension
     [[ "${filext}" == "${filename}" ]] && filename="${filename}.cpp"
+
     if [[ -e "${filename}" ]]; then
         echo "${filename}" "exist."
         printf "Do you want to overwrite it? [y|n]: "
