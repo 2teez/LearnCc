@@ -76,10 +76,29 @@ if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="g:r:h"
+optstring="d:g:r:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
+        d)
+        filename="${OPTARG,,}"
+        for file in $(ls); do
+            if [[ "${filename}" = "${file}" ]]; then
+                printf "Do you want to delete ${file}? [y|n]: "
+                while read ans; do
+                    case "${ans,,}" in
+                        y) rm "${file}"
+                           exit 0;;
+                        n) break;;
+                        *) printf "Can only use 'n' for no, and 'y' for yes.\n"
+                        continue
+                        ;;
+                    esac
+                done
+            fi
+        done
+
+        ;;
         g)
           filename="${OPTARG,,}"
           create_file "${filename}"
