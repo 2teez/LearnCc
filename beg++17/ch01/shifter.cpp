@@ -5,6 +5,13 @@
 #include <ios>
 #include <iostream>
 
+enum class Direction {
+    North, N=North,
+    South, S=South,
+    West, W=West,
+    East, E=East,
+};
+
 int main(int argc, char** argv)
 {
 
@@ -14,5 +21,8 @@ int main(int argc, char** argv)
               << std::setbase(16)<< std::showbase << number << " - " << shifted_number << "\n"
               << std::endl;
 
+    Direction place {Direction::West};
+    std::cout << std::setbase(10) << std::showbase;
+    std::cout << static_cast<int>(place) << std::endl;
     return 0;
 }
