@@ -20,9 +20,13 @@ inline void aligned(int &first_number, int &second_number)
 inline int user_input(std::string msg="Prompt: ")
 {
     int value {};
-    do {
+    do
+    {
         std::cout << msg;
         std::cin >> value;
+        if (value <= 0) {
+            std::cout << "Invalid value of " << value << std::endl;
+        }
     }
     while(value <= 0);
     return value;
