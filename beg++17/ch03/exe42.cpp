@@ -15,17 +15,25 @@ inline void aligned(int &first_number, int &second_number)
         second_number = first_number;
         first_number = temp;
     }
+}
 
+inline int user_input(std::string msg="Prompt: ")
+{
+    int value {};
+    do {
+        std::cout << msg;
+        std::cin >> value;
+    }
+    while(value <= 0);
+    return value;
 }
 
 int main(int argc, char** argv)
 {
 
-    int first_number, second_number {};
-    std::cout << "Enter the first number: ";
-    std::cin >> first_number;
-    std::cout << "Enter the second number: ";
-    std::cin >> second_number;
+    // get user input
+    int first_number = user_input("Enter first number: ");
+    int second_number = user_input("Enter second number: ");
 
     // check the greater of the number
     // and align the number making the greater number
