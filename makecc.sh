@@ -42,7 +42,7 @@ function create_file() {
     echo "
 #![allow(dead_code, unused)]
 
-fn main {
+fn main() {
   println!("Hello, World!");
 }" > "${rust_file}"
     # make a file with cpp extension
