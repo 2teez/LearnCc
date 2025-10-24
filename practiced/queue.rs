@@ -59,6 +59,12 @@ fn main() {
     println!("{:?}", queue.get());
     queue.put(7);
     println!("{:?}", queue);
+    //
+    let mut lq = Queue::<String>::new(vec![], 2);
+    lq.put("home".to_owned());
+    lq.put("house".to_string());
+    println!("{:?}", lq);
+    println!("{:?}", lq.get());
 }
 
 #[cfg(test)]
