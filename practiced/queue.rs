@@ -65,7 +65,7 @@ fn main() {
 mod tests {
     use super::*;
     #[test]
-    fn test_get_gunction() {
+    fn test_get_function() {
         let mut q = Queue::<u8>::new(vec![1u8, 2u8], 2);
         assert_eq!(Some(1), q.get());
     }
