@@ -13,6 +13,8 @@ function usage() {
     echo "Usage: ./${filename} <options> filename"
     echo
     echo "Avaliable Options:"
+    echo "-a    : create a header file, with cpp file and main file."
+    echo "-d    : delete a file."
     echo "-g    : Create a generic cpp file."
     echo "-r    : Compile and Run a cpp file"
 }
@@ -73,14 +75,36 @@ fn main() {
     fi
 }
 
+# create a header file, cpp amd main.cpp
+function header_file() {
+   file="${1}"
+   title="${file%.*}"
+   header_file="${title}.h"
+   echo "
+#ifndef __"${title^^}"__
+#define __"${title^^}"__
+#
+
+#endif //__"${title^^}"__
+   " > "${header_file}"
+
+  filename="${filename}.cpp"
+  echo "#include \"${title}.h\"" > "${filename}"
+  create_file "${filename%.*}_main.cpp" # make a main file also
+}
+
 if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="d:g:r:h"
+optstring="a:d:g:r:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
+        a)
+            filename="${OPTARG,,}"
+            header_file "${filename}"
+          ;;
         d)
         filename="${OPTARG,,}"
         for file in $(ls); do
