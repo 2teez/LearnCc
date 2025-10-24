@@ -135,6 +135,11 @@ while getopts "${optstring}" opt; do
         r)
             filename="${OPTARG}"
             file_o_run="${filename%.*}";
+            extension="${filename#*.}"
+            if [[ "${extension}" == "rs" ]]; then
+                rustc "${filename}" && ./"${file_o_run}" && rm "${file_o_run}"
+                exit 0
+            fi
             g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
             chmod +x "${file_o_run}"
             ./"${file_o_run}"
