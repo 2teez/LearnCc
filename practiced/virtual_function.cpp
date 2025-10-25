@@ -5,7 +5,8 @@
 #include <iostream>
 #include <cmath>
 
-#define PI ((22.0)/(7.0))
+//#define PI ((22.0)/(7.0))
+constexpr double PI = 3.141592653589793;
 
 class TwoDShape {
     double width, height;
