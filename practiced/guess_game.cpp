@@ -61,11 +61,11 @@ int main(int argc, char** argv)
                 number_guesses += 1;
             }
         }
-        if (user_input("Exit the Game? [y]: ") != "y")
+        if (user_input("Exit the Game? [y]: ") == "y")
         {
-            continue;
+            break;
         }
-        break;
+
     }
     return 0;
 }
