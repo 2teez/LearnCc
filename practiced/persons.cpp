@@ -19,6 +19,7 @@ class Person
       {
           return first_name + " " + last_name;
       }
+      bool operator==(const Person&) const;
       friend std::ostream& operator<<(std::ostream& os, const Person&);
       friend std::istream& operator>>(std::istream& is, Person&);
 };
@@ -36,7 +37,18 @@ int main(int argc, char** argv)
         std::cout << langs[i] << "\n";
     }
 
+     Person perl {"larry", "perl"}, python {"monty", "python"},
+     raku {"larry", "perl"};
+
+     std::cout << (perl == raku) << "\n";
+     std::cout << (python == perl) << "\n";
+
     return 0;
+}
+
+bool Person::operator==(const Person& rhs) const
+{
+    return ((first_name == rhs.first_name) && (last_name == rhs.last_name));
 }
 
 std::ostream& operator<<(std::ostream& os, const Person& p)
