@@ -10,20 +10,23 @@ struct Person
      std::string name {};
      unsigned int age {0};
    public:
-     Person():name(""), age(0){}
-     Person(std::string n, unsigned a): name(n), age(a) {}
+     Person(std::string n="",unsigned a=0):name(n), age(a){}
      friend std::ostream& operator<<(std::ostream& os, const Person& p)
      {
          os << "Name: " << p.name << " , Age: " << p.age << "\n";
          return os;
      }
-     ~Person(){}
+     ~Person()
+     {
+         std::cout << "Dropping person with name " << name << " and age " << age << "\n";
+     }
 };
 
 int main(int argc, char** argv)
 {
 
-    Person *persons[3] {new Person("pithon", 34),new Person("java", 12), new Person("rust", 5)};
+    Person *persons[] {new Person("pithon", 34),new Person("java", 12),
+        new Person("rust", 5), new Person()};
     for(auto person: persons)
     {
         std::cout << person << *person << "\n";
