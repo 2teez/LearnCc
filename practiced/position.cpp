@@ -22,13 +22,13 @@ class Position: public Point {
         {
             return std::sqrt(std::pow(x, 2.0) + std::pow(y, 2.0));
         }
-        ~Position() {}
+        ~Position() = default;
 };
 
 int main(int argc, char** argv)
 {
 
-    Position pt(1.35, 0.125);
+    Position pt(1.35f, 0.125f);
     std::cout << "Calculated distance: " << pt.distance() << "\n";
     return 0;
 }
