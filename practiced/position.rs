@@ -2,8 +2,8 @@
 
 #[derive(Debug)]
 struct Point {
-    x: f64,
-    y: f64,
+    x: f32,
+    y: f32,
 }
 
 #[derive(Debug)]
@@ -12,7 +12,7 @@ struct Position {
 }
 
 impl Position {
-    fn new(x: f64, y: f64) -> Self {
+    fn new(x: f32, y: f32) -> Self {
         Self { pt: Point { x, y } }
     }
 
@@ -20,13 +20,13 @@ impl Position {
         Self { pt }
     }
 
-    fn distance(&self) -> f64 {
-        f64::sqrt(self.pt.x * self.pt.x + self.pt.y * self.pt.y)
+    fn distance(&self) -> f32 {
+        f32::sqrt(self.pt.x * self.pt.x + self.pt.y * self.pt.y)
     }
 }
 
 fn main() {
-    let pt = Position::new(1.35f64, 0.125f64);
+    let pt = Position::new(1.35f32, 0.125f32);
     println!("{:?}", pt.distance());
 
     let point = Point { x: 3.1, y: 0.67 };
