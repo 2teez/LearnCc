@@ -14,6 +14,7 @@ function usage() {
     echo
     echo "Avaliable Options:"
     echo "-a    : create a header file, with cpp file and main file."
+    echo "-b    : debugging cpp file using gdb."
     echo "-d    : delete a file."
     echo "-g    : Create a generic cpp file."
     echo "-r    : Compile and Run a cpp file"
@@ -99,7 +100,7 @@ if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="a:d:g:r:R:h"
+optstring="a:b:d:g:r:R:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
@@ -107,6 +108,15 @@ while getopts "${optstring}" opt; do
             filename="${OPTARG,,}"
             header_file "${filename}"
           ;;
+        b)
+            filename="${OPTARG}"
+            file_o_run="${filename%.*}";
+            extension="${filename#*.}"
+            g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            chmod +x "${file_o_run}"
+            gdb ./"${file_o_run}"
+            rm ./"${file_o_run}"
+        ;;
         d)
         filename="${OPTARG,,}"
         for file in $(ls); do
