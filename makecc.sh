@@ -17,6 +17,8 @@ function usage() {
     echo "-d    : delete a file."
     echo "-g    : Create a generic cpp file."
     echo "-r    : Compile and Run a cpp file"
+    echo "-R    : Compile and Run a cpp file with a choice cpp standard."
+    echo "-h    : help."
 }
 
 # cpp start writeup
@@ -97,7 +99,7 @@ if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="a:d:g:r:h"
+optstring="a:d:g:r:R:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
@@ -131,6 +133,28 @@ while getopts "${optstring}" opt; do
         ;;
         h) usage
            exit 1
+        ;;
+        R)
+            filename="${OPTARG}"
+            file_o_run="${filename%.*}";
+            extension="${filename#*.}"
+            if [[ "${extension}" == "rs" ]]; then
+                rustc "${filename}" && ./"${file_o_run}" && rm "${file_o_run}"
+                exit 0
+            fi
+            ## get the cpp standards
+            default_std= #std=c++17
+            while read -p "Enter a cpp standard of choice: " ans; do
+                if [[ "${ans}" =~ ^c\+\+[0-9]{2}$ ]]; then
+                    default_std="${ans}";
+                    break
+                fi
+                echo "Invalid input. ${ans}. It should be either c++11, c++17, etc."
+            done
+            g++ -Wall -std="${default_std}"  -o "${file_o_run}" "${filename}"
+            chmod +x "${file_o_run}"
+            ./"${file_o_run}"
+            rm "${file_o_run}"
         ;;
         r)
             filename="${OPTARG}"
