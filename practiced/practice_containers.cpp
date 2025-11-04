@@ -6,6 +6,9 @@
 #include <vector>
 #include <algorithm>
 
+template <typename T>
+T summation(T first_value, T second_value);
+
 int main(int argc, char** argv)
 {
 
@@ -24,6 +27,16 @@ int main(int argc, char** argv)
         std::cout << num << " ";
     }
     std::cout << std::endl;
-
+   //
+   std::cout << summation(4.2, 0.35) << "\n";
+   std::cout << summation(4, -2) << "\n";
+   std::cout << summation<std::string>("hello, ", "world..") << "\n";
+   //
     return 0;
+}
+
+template <typename T>
+T summation(T first_value, T second_value)
+{
+    return first_value + second_value;
 }
