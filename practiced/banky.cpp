@@ -5,19 +5,22 @@
 #include <functional>
 #include <iostream>
 
-struct Log{
+struct Log
+{
     virtual void log(int, int, double) const = 0;
     virtual ~Log() = default;
 };
 
-struct FileLog: Log {
+struct FileLog: Log
+{
   void log(int from, int to, double amount) const override
   {
       std::cout << "[FileL:] " << from <<","<< to <<","<< amount << "\n";
   }
 };
 
-struct ConsoleLog: Log {
+struct ConsoleLog: Log
+{
   void log(int from, int to, double amount) const override
   {
       std::cout << "[ConsL:] " << from <<" -> "<< to <<": "<< amount << "\n";
