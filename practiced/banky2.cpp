@@ -35,7 +35,10 @@ struct Bank
     Bank(): log {std::make_unique<ConsoleLogger>()} {}
     void set_logger(std::unique_ptr<Logger> log)
     {
-        this->log = std::move(log);
+        if (log)
+        {
+            this->log = std::move(log);
+        }
     }
     void make_transfer(int from, int to, double amount) const
     {
