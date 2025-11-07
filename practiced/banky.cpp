@@ -4,21 +4,20 @@
 
 #include <functional>
 #include <iostream>
-//#include <memory>
 
 struct Log{
     virtual void log(int, int, double) const = 0;
     virtual ~Log() = default;
 };
 
-struct FileLog: public Log {
+struct FileLog: Log {
   void log(int from, int to, double amount) const override
   {
       std::cout << "[FileL:] " << from <<","<< to <<","<< amount << "\n";
   }
 };
 
-struct ConsoleLog: public Log {
+struct ConsoleLog: Log {
   void log(int from, int to, double amount) const override
   {
       std::cout << "[ConsL:] " << from <<" -> "<< to <<": "<< amount << "\n";
@@ -111,5 +110,7 @@ int main(int argc, char** argv)
     bank.make_transfer(3000, 2000, 75.00, &clog);
     auto flog = FileLog();
     bank.make_transfer(3000, 2000, 75.00, &flog);
+    //
+    bank.make_transfer(2000, 4000, 20.0, new FileLog());
     return 0;
 }
