@@ -5,7 +5,7 @@
 #include <string>
 
 
-struct Person 
+struct Person
 {
    Person(const std::string& nname = "", unsigned int aage = 0)
 	   : name(nname), age(aage) {}
@@ -13,10 +13,10 @@ struct Person
 
    ~Person() = default;
 
-   friend std::iostream& operator<<(std::iostream& os, const Person& p)
+   friend std::ostream& operator<<(std::ostream& os, const Person& p)
    {
-	os << "Person[ Name: " << p.name << ", Age: "<< p.age << "]\n";
-	return os;
+       os << "Person[ Name: " << p.name << ", Age: "<< p.age << "]\n";
+       return os;
    }
 
    private:
@@ -29,9 +29,8 @@ int main(int argc, char** argv)
 {
 
     auto java = Person{"java", 32};
-    Person java_cop {};
+    Person java_copy {};
     std::cout << java << java_copy << "\n";
 
     return 0;
 }
-
