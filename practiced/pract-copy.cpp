@@ -15,9 +15,20 @@ struct Person
 
    friend std::ostream& operator<<(std::ostream& os, const Person& p)
    {
-       os << "Person[ Name: " << p.name << ", Age: "<< p.age << "]\n";
+       os << "Person[Name: " << p.name << ", Age: "<< p.age << "]\n";
        return os;
    }
+
+   void incr_age()
+   {
+	   age += 1;
+   }
+
+   void change_name(std::string new_name = "")
+   {
+	name = new_name;
+   }
+
 
    private:
      std::string name;
@@ -29,7 +40,12 @@ int main(int argc, char** argv)
 {
 
     auto java = Person{"java", 32};
-    Person java_copy {};
+    Person java_copy {java};
+    std::cout << java << java_copy << "\n";
+
+    // after using the copy constructor
+    java.incr_age();
+    java.change_name("openjvm");
     std::cout << java << java_copy << "\n";
 
     return 0;
