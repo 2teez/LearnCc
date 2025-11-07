@@ -64,7 +64,10 @@ struct Bank
         double amount,
         Log* used_log) const
     {
-        used_log->log(from, to, amount);
+        if (used_log)
+        {
+            used_log->log(from, to, amount);
+        }
     }
 
 
