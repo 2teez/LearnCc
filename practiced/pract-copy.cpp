@@ -28,8 +28,10 @@ struct Person
 int main(int argc, char** argv)
 {
 
-
     auto java = Person{"java", 32};
+    Person java_cop {};
+    std::cout << java << java_copy << "\n";
+
     return 0;
 }
 
