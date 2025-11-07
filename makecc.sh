@@ -155,11 +155,13 @@ while getopts "${optstring}" opt; do
             ## get the cpp standards
             default_std= #std=c++17
             while read -p "Enter a cpp standard of choice: " ans; do
-                if [[ "${ans}" =~ ^c\+\+[0-9]{2}$ ]]; then
-                    default_std="${ans}";
+                if [[ "${ans}" =~ ^[0-9]{2}$ ]]; then
+                    default_std="c++${ans}";
+                    echo "You are compiling with ${default_std} standard. Enter to continue..."
+                    read
                     break
                 fi
-                echo "Invalid input. ${ans}. It should be either c++11, c++17, etc."
+                echo "Invalid input. ${ans}. Only specify the year; 98, 03, 11, 17, etc."
             done
             g++ -Wall -std="${default_std}"  -o "${file_o_run}" "${filename}"
             chmod +x "${file_o_run}"
