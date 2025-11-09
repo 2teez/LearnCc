@@ -65,6 +65,13 @@ T do_math(T a, T b, fn<T> f)
 {
     return f(a, b);
 }
+
+template <typename T, typename F>
+T do_math(T a, T b, F f)
+{
+    return f(a, b);
+}
+
 int main(int argc, char** argv)
 {
 
@@ -86,5 +93,16 @@ int main(int argc, char** argv)
    std::cout << do_math(a_i, b_i, subtract) << "\n";
    std::cout << do_math(a_d, b_d, subtract) << "\n";
    //
+   // using lambda expression in cpp
+   try
+   {
+       std::cout << do_math(2.5, 3.56, [](auto a, auto b){
+           return a / b;
+        }) << "\n";
+   }
+   catch (const std::exception& ex)
+   {
+       std::cout << ex.what() << "\n";
+   }
    return 0;
 }
