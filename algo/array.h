@@ -16,11 +16,10 @@ struct Array
         _array = new T[msize]{};
     }
 
-    Array(const T* arr, size_t n): size{n}, index {size}
+    Array(const T* arr, size_t n): size{n}, index {arr? size: 0}, _array{new T[size]}
     {
         if (arr)
         {
-            _array = new T[size]{};
            for (size_t i = 0; i < size; i++)
            {
                _array[i] = arr[i];
@@ -58,7 +57,6 @@ struct Array
         return false;
     }
 
-    [[nodiscard]]
     Array& push(const T& value, size_t nindex)
     {
         if (nindex < size)
@@ -77,12 +75,13 @@ struct Array
             return os;
         }
         os << "[";
-        for (size_t i = 0; i < arr.size-1; i++)
+        for (size_t i = 0; i < arr.index; ++i)
         {
-            os << arr[i] <<", ";
+            if (i) os << ", ";
+            os << arr[i];
         }
-        os << arr[arr.size-1] << "]";
-        return os;
+
+        return os << "]";
     }
 
     ~Array()
