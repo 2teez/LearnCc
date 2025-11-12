@@ -86,12 +86,17 @@ function header_file() {
    echo "
 #ifndef __"${title^^}"__
 #define __"${title^^}"__
-#
+// include the structure of the header file
+
+#include "\"${title}.inl\""
 
 #endif //__"${title^^}"__
    " > "${header_file}"
 
   filename="${filename}.cpp"
+
+  # create needed files
+  echo "//#include \"${title}.h\"" > "${title}.inl"
   echo "#include \"${title}.h\"" > "${filename}"
   create_file "${filename%.*}_main.cpp" # make a main file also
 }
