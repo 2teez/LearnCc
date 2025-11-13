@@ -104,6 +104,16 @@ struct Array
         return *this;
     }
 
+    bool contains(T const& value) const noexcept
+    {
+        for (size_t i = 0; i < index; i++)
+        {
+            if (_array[i] == value)
+                return true;
+        }
+        return false;
+    }
+
     friend std::ostream& operator<<(std::ostream& os, const Array<T>& arr)
     {
         if (arr.index == 0)
