@@ -26,5 +26,13 @@ int main(int argc, char** argv)
     //
     names = names.push("python", 0);
     std::cout << names << "\n";
+    // pop
+    std::cout << names.pop() << ": " << names << "\n";
+    // remove_at
+    std::cout << names.remove_at(1) << ": " << names << "\n";
+    // contains
+    std::cout << nnums.contains(7) << nnums.contains(2) << "\n";
+    //
+    //
     return 0;
 }
