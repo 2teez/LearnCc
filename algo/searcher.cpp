@@ -34,6 +34,18 @@ namespace linear_search
     }
 }
 
+template <typename T>
+void swap(T& a, T& b)
+{
+    auto tmp = a;
+    if (a < b)
+    {
+        a = b;
+        b = tmp;
+    }
+}
+
+
 namespace binary_search
 {
     template <typename T, typename F>
@@ -43,16 +55,36 @@ namespace binary_search
             for (auto it2 = start; it2 != end; ++it2)
             f(*it, *it2);
     }
-}
 
-template <typename T>
-void swap(T& a, T& b)
-{
-    auto tmp = a;
-    if (a < b)
+    template <typename T = int, typename U, typename Data>
+    T bin_search(Data& data, T start_idx, T end_idx, const U& value)
     {
-        a = b;
-        b = tmp;
+        sorter(&data[start_idx], &data[end_idx], ::swap<U>);
+        T curr_idx, result;
+        while(true)
+        {
+            curr_idx = (start_idx + end_idx) / 2;
+            if (data[curr_idx] == value)
+            {
+                return curr_idx;
+            }
+            else if (start_idx > end_idx)
+            {
+                return -1;
+            }
+            else
+            {
+                if (data[curr_idx] < value)
+                {
+                    start_idx = curr_idx + 1;
+                }
+                else
+                {
+                    end_idx = curr_idx - 1;
+                }
+            }
+        }
+        return result;
     }
 }
 
@@ -89,6 +121,8 @@ int main(int argc, char** argv)
         }
     });
     println(hello_str);
-
+    //
+    auto index = binary_search::bin_search(hello, 0, 5, 'r');
+    std::cout << index << "\n";
     return 0;
 }
