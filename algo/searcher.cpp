@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <vector>
 #include <iterator>
+#include <utility>
 
 template <typename T>
 using fn = void(*)(T&, T&);
@@ -37,12 +38,7 @@ namespace linear_search
 template <typename T>
 void swap(T& a, T& b)
 {
-    auto tmp = a;
-    if (a < b)
-    {
-        a = b;
-        b = tmp;
-    }
+    std::swap(a, b);
 }
 
 
@@ -52,39 +48,28 @@ namespace binary_search
     void sorter(T start, T end, F f)
     {
         for(auto it = start; it != end; ++it)
-            for (auto it2 = start; it2 != end; ++it2)
+            for (auto it2 = it+1; it2 != end; ++it2)
             f(*it, *it2);
     }
 
     template <typename T = int, typename U, typename Data>
-    T bin_search(Data& data, T start_idx, T end_idx, const U& value)
+    T bin_search(Data& data, T start_idx, T end_idx, const U& value, bool sort_first = false)
     {
-        sorter(&data[start_idx], &data[end_idx], ::swap<U>);
-        T curr_idx, result;
-        while(true)
+        if (sort_first)
+            sorter(&data[start_idx], &data[end_idx], ::swap<U>);
+
+        while(start_idx <= end_idx)
         {
-            curr_idx = (start_idx + end_idx) / 2;
+            T curr_idx = (start_idx + end_idx) / 2;
+
             if (data[curr_idx] == value)
-            {
                 return curr_idx;
-            }
-            else if (start_idx > end_idx)
-            {
-                return -1;
-            }
+            else if (data[curr_idx] < value)
+                start_idx = curr_idx + 1;
             else
-            {
-                if (data[curr_idx] < value)
-                {
-                    start_idx = curr_idx + 1;
-                }
-                else
-                {
-                    end_idx = curr_idx - 1;
-                }
-            }
+                end_idx = curr_idx - 1;
         }
-        return result;
+        return -1;
     }
 }
 
@@ -114,7 +99,7 @@ int main(int argc, char** argv)
     //
     binary_search::sorter(std::begin(hello_str),std::end(hello_str), [](char& a, char& b){
         auto tmp = a;
-        if (a < b)
+        if (a > b)
         {
             a = b;
             b = tmp;
@@ -122,7 +107,7 @@ int main(int argc, char** argv)
     });
     println(hello_str);
     //
-    auto index = binary_search::bin_search(hello, 0, 5, 'r');
-    std::cout << index << "\n";
+    auto index = binary_search::bin_search(hello, 0, 5, 'e');
+    std::cout  << index << "\n";
     return 0;
 }
