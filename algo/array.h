@@ -3,6 +3,7 @@
 #define __ARRAY__
 // include the structure of the header file
 #include <iostream>
+#include <stdexcept>
 
 template <typename T>
 struct Array
@@ -29,21 +30,38 @@ struct Array
 
     T pop()
     {
-        T* result = nullptr;
-        if (_array)
-        {
-            size = size - 1;
-            result = &_array[size];
-            if (size > 0)
-            {
-                auto new_arr = new T[size];
-                for(size_t i = 0; i < size; i++)
-                    new_arr[i] = _array[i];
-                _array = new T[size];
-                _array = new_arr;
-            }
-        }
-        return *result;
+
+        if (index == 0 || !_array)
+            throw std::out_of_range("Array is empty!");
+
+        index = index - 1;
+        T result = _array[index];
+
+        auto new_arr = new T[index];
+        for(size_t i = 0; i < index; i++)
+            new_arr[i] = _array[i];
+        delete[] _array;
+        _array = new_arr;
+
+        return result;
+    }
+
+    bool remove_at(size_t idx)
+    {
+        if (index == 0 || idx > index || !_array)
+            return false;
+
+        auto new_arr = new T[index];
+        size_t counter = 0;
+        for(size_t i = 0; i < index; i++)
+            if (idx != i)
+                new_arr[counter++] = _array[i];
+
+        delete[] _array;
+        _array = new_arr;
+
+        return true;
+
     }
 
     Array(const Array<T>& arr): size {arr.size}, index {size}
