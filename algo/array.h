@@ -27,6 +27,25 @@ struct Array
         }
     }
 
+    T pop()
+    {
+        T* result = nullptr;
+        if (_array)
+        {
+            size = size - 1;
+            result = &_array[size];
+            if (size > 0)
+            {
+                auto new_arr = new T[size];
+                for(size_t i = 0; i < size; i++)
+                    new_arr[i] = _array[i];
+                _array = new T[size];
+                _array = new_arr;
+            }
+        }
+        return *result;
+    }
+
     Array(const Array<T>& arr): size {arr.size}, index {size}
     {
             _array = new T[arr.size]{};
