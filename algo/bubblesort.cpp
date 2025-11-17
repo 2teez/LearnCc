@@ -34,10 +34,10 @@ void swappy(T& a, T& b)
     std::swap(a, b);
 }
 
-template <typename T>
-void println(T arg)
+template <typename ...T>
+void println(const T& ...arg)
 {
-    std::cout << arg << "\n";
+    std::cout << ((arg << "\n") <<...);
 }
 
 int main(int argc, char** argv)
