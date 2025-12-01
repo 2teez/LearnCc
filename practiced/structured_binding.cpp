@@ -4,9 +4,9 @@
 #include <exception>
 #include <iostream>
 
-class Arithematic_Error: public std::exception {
+class arithematic_error: public std::exception {
     public:
-    explicit Arithematic_Error(const std::string& msg): msg_(msg) {}
+    explicit arithematic_error(const std::string& msg): msg_(msg) {}
     private:
     std::string msg_;
 };
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     {
         auto [division, reminder] = divide_reminder(31, 3);
         std::cout << division << "; " << reminder << "\n";
-    } catch (const Arithematic_Error& ae)
+    } catch (const arithematic_error& ae)
     {
         std::cerr << ae.what() << "\n";
     }
@@ -47,6 +47,6 @@ int main(int argc, char** argv)
 std::pair<int, int> divide_reminder(int nume, int deno)
 {
     if (deno == 0)
-        throw Arithematic_Error("can't divide by Zero!");
+        throw arithematic_error("can't divide by Zero!");
     return {nume/deno, nume % deno};
 }
