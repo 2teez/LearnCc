@@ -82,7 +82,7 @@ fn main() {
 function header_file() {
    file="${1}"
    title="${file%.*}"
-   header_file="${title}.h"
+   header_file="${title}.hpp"
    echo "
 #ifndef __"${title^^}"__
 #define __"${title^^}"__
@@ -96,8 +96,8 @@ function header_file() {
   filename="${filename}.cpp"
 
   # create needed files
-  echo "//#include \"${title}.h\"" > "${title}.inl"
-  echo "#include \"${title}.h\"" > "${filename}"
+  echo "//#include \"${title}.hpp\"" > "${title}.inl"
+  echo "#include \"${title}.hpp\"" > "${filename}"
   create_file "${filename%.*}_main.cpp" # make a main file also
 }
 
