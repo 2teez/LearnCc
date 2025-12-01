@@ -3,10 +3,14 @@
 // A complete C++ Program
 #include <exception>
 #include <iostream>
+#include <vector>
 
-class arithematic_error: public std::exception {
+class arithmetic_error: public std::exception {
     public:
-    explicit arithematic_error(const std::string& msg): msg_(msg) {}
+    explicit arithmetic_error(const std::string& msg): msg_(msg) {}
+    const char* what() const noexcept override {
+        return msg_.c_str();
+    }
     private:
     std::string msg_;
 };
@@ -27,7 +31,7 @@ int main(int argc, char** argv)
     {
         auto [division, reminder] = divide_reminder(31, 3);
         std::cout << division << "; " << reminder << "\n";
-    } catch (const arithematic_error& ae)
+    } catch (const arithmetic_error& ae)
     {
         std::cerr << ae.what() << "\n";
     }
@@ -47,6 +51,6 @@ int main(int argc, char** argv)
 std::pair<int, int> divide_reminder(int nume, int deno)
 {
     if (deno == 0)
-        throw arithematic_error("can't divide by Zero!");
+        throw arithmetic_error("can't divide by Zero!");
     return {nume/deno, nume % deno};
 }
