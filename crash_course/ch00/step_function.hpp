@@ -5,5 +5,6 @@
 
 //#include "step_function.inl"
 int step_function(int x);
+int absolute_value(int x);
 
 #endif //__STEP_FUNCTION__
