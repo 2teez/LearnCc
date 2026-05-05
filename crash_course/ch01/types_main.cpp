@@ -1,7 +1,7 @@
 #include "types_main.hpp"
 
 Calculator::Calculator(Operations op)
-    : _op(op)
+    : _op{op}
 {
 }
 
