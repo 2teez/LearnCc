@@ -28,5 +28,14 @@ int main(int argc, char** argv)
     std::cout << "absolute_value(" << num2 << ") = " << abs_result2 << std::endl;
     std::cout << "absolute_value(" << num3 << ") = " << abs_result3 << std::endl;
 
+    // checking sum function
+    int sum_result1 = sum(num1, num2);
+    int sum_result2 = sum(num2, num3);
+    int sum_result3 = sum(num1, num3);
+
+    std::cout << "absolute_value(sum(" << num1 << ", " << num2 << ")) = " << absolute_value(sum_result1) << std::endl;
+    std::cout << "absolute_value(sum(" << num2 << ", " << num3 << ")) = " << absolute_value(sum_result2) << std::endl;
+    std::cout << "absolute_value(sum(" << num1 << ", " << num3 << ")) = " << absolute_value(sum_result3) << std::endl;
+
     return 0;
 }

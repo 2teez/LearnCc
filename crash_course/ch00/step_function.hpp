@@ -4,7 +4,8 @@
 // include the structure of the header file
 
 //#include "step_function.inl"
-int step_function(int x);
-int absolute_value(int x);
+int step_function(int);
+int absolute_value(int);
+int sum(int, int);
 
 #endif //__STEP_FUNCTION__
