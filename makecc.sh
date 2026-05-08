@@ -19,6 +19,7 @@ function usage() {
     echo "-g    : Create a generic cpp file."
     echo "-r    : Compile and Run a cpp file"
     echo "-R    : Compile and Run a cpp file with a choice cpp standard."
+    echo "-w    : Compile and Run a cpp file with header and implementation files."
     echo "-h    : help."
 }
 
@@ -182,6 +183,26 @@ while getopts "${optstring}" opt; do
                 exit 0
             fi
             g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            chmod +x "${file_o_run}"
+            ./"${file_o_run}"
+            rm "${file_o_run}"
+        ;;
+        w)
+            filename="${OPTARG}"
+            file_o_run="${filename%.*}";
+            extension="${filename#*.}"
+
+            # get the implementation file name
+            impl=
+            while read -e -p "Get implementation filename(s): " ans do
+                if [[ "${ans}" == "" ]]; then
+                    echo "No implementation file specified."
+                    continue
+                fi
+                impl="${ans}"
+                break
+            done
+            g++ -Wall -std=c++17  -o "${file_o_run}" "${impl}"
             chmod +x "${file_o_run}"
             ./"${file_o_run}"
             rm "${file_o_run}"
