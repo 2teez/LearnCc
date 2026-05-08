@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     char lower[] = "abc?e";
     char upper[] = "ABC?E";
 
-    write_to(lower, sizeof(lower)/sizeof(char), 3, 'd');
+    write_to(lower, std::size(lower), 3, 'd');
     write_to(upper, sizeof(upper)/sizeof(char), 3, 'D');
     //
     read_from(lower, sizeof(lower)/sizeof(char), 3);
