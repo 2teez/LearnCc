@@ -106,7 +106,7 @@ if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="a:b:d:g:r:R:h"
+optstring="a:b:d:g:r:R:w:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
@@ -190,11 +190,10 @@ while getopts "${optstring}" opt; do
         w)
             filename="${OPTARG}"
             file_o_run="${filename%.*}";
-            extension="${filename#*.}"
 
             # get the implementation file name
             impl=
-            while read -e -p "Get implementation filename(s): " ans do
+            while read -e -p "Get implementation filename(s): " ans; do
                 if [[ "${ans}" == "" ]]; then
                     echo "No implementation file specified."
                     continue
@@ -202,7 +201,7 @@ while getopts "${optstring}" opt; do
                 impl="${ans}"
                 break
             done
-            g++ -Wall -std=c++17  -o "${file_o_run}" "${impl}"
+            g++ -Wall -std=c++17  -o "${file_o_run}"  ${filename} "${impl}"
             chmod +x "${file_o_run}"
             ./"${file_o_run}"
             rm "${file_o_run}"
