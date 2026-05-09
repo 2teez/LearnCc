@@ -14,6 +14,7 @@ function usage() {
     echo
     echo "Avaliable Options:"
     echo "-a    : create a header file, with cpp file and main file."
+    echo "-v    : create a cpp file with void main() function."
     echo "-b    : debugging cpp file using gdb."
     echo "-d    : delete a file."
     echo "-g    : Create a generic cpp file."
@@ -106,7 +107,7 @@ if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="a:b:d:g:r:R:w:h"
+optstring="a:b:d:g:r:R:w:v:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
@@ -122,6 +123,26 @@ while getopts "${optstring}" opt; do
             chmod +x "${file_o_run}"
             gdb ./"${file_o_run}"
             rm ./"${file_o_run}"
+        ;;
+        v)
+            filename="${OPTARG,,}"
+            filext="${filename#*.}"
+            [[ "${filext}" != "cpp" ]] && filename="${filename%.*}.cpp"
+
+            echo "
+// A complete C++ Program
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string hello {\"Hello, World!\"};
+    std::cout << hello << std::endl;
+
+    return 0;
+}
+            " > "${filename}"
+            ./"${0}" -r "${filename}"
         ;;
         d)
         filename="${OPTARG,,}"
