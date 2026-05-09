@@ -1,12 +1,33 @@
 
 // A complete C++ Program
 #include <iostream>
-#include <string>
+#include <concepts>
 
-int mode(int*, std::size_t);
+int mode(const int*, std::size_t);
 
-template <typename T>
-T mode(T*, std::size_t);
+template <std::integral T>
+T mode(const T* arr, std::size_t length)
+{
+    if (length == 0) return T{};
+
+    T* counter = new T[length]{};
+    for (std::size_t i = 0; i < length; i++)
+    {
+        counter[arr[i]]++;
+    }
+    T max {};
+    T count {};
+    for (std::size_t i = 0; i < length; ++i)
+    {
+        if (counter[i] > max)
+        {
+            max = counter[i];
+            count = i;
+        }
+    }
+    delete [] counter;
+    return count;
+}
 
 int main()
 {
@@ -14,42 +35,27 @@ int main()
     std::size_t size = std::size(arr);
     std::cout << mode(arr, size) << std::endl;
 
+    // array of doubles
+    //double darr[] {1.5, 2.5, 3.5, 4.5, 5.5};
+    //std::size_t dsize = std::size(darr);
+    //std::cout << mode(darr, dsize) << std::endl;
+
     return 0;
 }
 
-template <typename T>
-T mode(T* arr, std::size_t size)
+int mode(const int* arr, std::size_t length)
 {
-    T* counter = new T[size]{};
-    for (std::size_t i = 0; i < size; i++)
-    {
-        counter[arr[i]]++;
-    }
-    T max = 0;
-    T count = 0;
-    for (std::size_t i = 0; i < size; ++i)
-    {
-        if (counter[i] > max)
-        {
-            max = counter[i];
-            count = i;
-        }
-    }
-    delete [] counter;
-    return count;
-}
+    if (length == 0) return 0;
 
-int mode(int* arr, std::size_t size)
-{
-    int* counter = new int[size]{};
-    for (std::size_t i = 0; i < size; i++)
+    int* counter = new int[length]{};
+    for (std::size_t i = 0; i < length; i++)
     {
         counter[arr[i]]++;
     }
 
     int count = 0;
     int max = 0;
-    for (std::size_t i = 0; i < size; ++i)
+    for (std::size_t i = 0; i < length; ++i)
     {
         if (counter[i] > max)
         {
@@ -60,4 +66,4 @@ int mode(int* arr, std::size_t size)
 
     delete [] counter;
     return count;
-}
+    }
