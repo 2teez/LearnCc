@@ -20,11 +20,17 @@ struct FileLogger : Logger
 
 struct ConsoleLogger : Logger
 {
-    ConsoleLogger(const char* name): m_name{name} {}
-    ConsoleLogger(const ConsoleLogger& other) = delete;
-    ConsoleLogger(ConsoleLogger&& other) = delete;
-    ConsoleLogger& operator=(const ConsoleLogger& other) = delete;
-    ConsoleLogger& operator=(ConsoleLogger&& other) = delete;
+    ConsoleLogger(const char* name): m_name{name}
+    {
+        if (name == nullptr)
+        {
+            throw std::invalid_argument("name cannot be null");
+        }
+    }
+    ConsoleLogger(const ConsoleLogger&) = default;
+    ConsoleLogger(ConsoleLogger&&) noexcept = default;
+    ConsoleLogger& operator=(const ConsoleLogger&) = default;
+    ConsoleLogger& operator=(ConsoleLogger&&) noexcept = default;
     ~ConsoleLogger() = default;
     void log(long from, long to, double amount) const override
     {
