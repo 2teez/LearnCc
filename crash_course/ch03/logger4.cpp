@@ -27,6 +27,13 @@ struct ConsoleLogger : Logger
     }
 };
 
+struct AccountDatabase
+{
+    virtual void set_amount(long id,double amount) = 0;
+    virtual double get_amount(long id) const = 0;
+    virtual ~AccountDatabase() = default;
+};
+
 struct Bank
 {
     Bank(Logger& logger): m_logger{&logger}
