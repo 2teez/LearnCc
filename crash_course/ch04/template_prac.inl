@@ -3,12 +3,12 @@
 #include <concepts>
 template <typename T>
 concept Averageable =
-std::is_initializable<T>::value &&
+std::default_initializable<T> &&
 requires(T a, T b)
 {
     { a += b } -> std::same_as<T&>;
     { a / size_t{1}} -> std::convertible_to<T>;
-}
+};
 
 template <std::size_t Length, Averageable T>
 T mean(const T (&arr)[Length])
