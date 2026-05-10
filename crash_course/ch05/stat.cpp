@@ -5,33 +5,36 @@
 
 namespace Templar::Template
 {
-    template <typename From, typename To>
-    struct Narrorer
+    template <typename To, typename From>
+    struct Narrower
     {
-        To cast(From value)
+        To cast(From value) const
         {
-            const auto converted = static_cast<To>(From);
+            const auto converted = static_cast<To>(value);
             const auto new_value = static_cast<From>(converted);
 
-            if (converted != new_value)
+            if (value != new_value)
             {
                 throw std::runtime_error {"Narrowed conversion!"};
             }
-        }
-    }
-}
 
-using temple = Templar::Template;
+            return converted;
+        }
+    };
+};
+
+template <typename To, typename From>
+using temple = Templar::Template::Narrower<To, From>;
 
 template <typename From>
-using short_value = temple::Narrower<short, From>;
+using short_caster = temple<short, From>;
 
 int main()
 {
 
     try
     {
-        const short_value<int> caster;
+        const short_caster<int> caster;
         const auto cyclic_short = caster.cast(142857);
         std::cout << cyclic_short << std::endl;
     }
