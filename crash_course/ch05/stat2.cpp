@@ -1,13 +1,23 @@
 
 // A complete C++ Program
 #include <iostream>
-#include <string>
+
+template <typename T>
+constexpr T sum(T t)
+{
+    return t;
+}
+
+template <typename T, typename... Ts>
+constexpr T sum(T t, Ts... ts)
+{
+    return t + sum(ts...);
+}
 
 int main()
 {
-    std::string hello {"Hello, World!"};
-    std::cout << hello << std::endl;
+    const auto result = sum(1, 2, 3, 4, 5);
+    std::cout << result << std::endl;
 
     return 0;
 }
-            
