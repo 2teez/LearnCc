@@ -6,3 +6,9 @@ target
 */*/debug
 */*/*/debug
 */*/*/*/debug
+*/*/build
+*/*/*/build
+*/*/*/*/build
+*/*/ninja
+*/*/*/ninja
+*/*/*/*/ninja
