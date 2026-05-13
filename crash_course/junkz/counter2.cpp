@@ -12,8 +12,6 @@ struct Counter
 
 int main()
 {
-
-
     Counter s_counter{'s'};
 
     int tally {};
@@ -25,6 +23,24 @@ int main()
     auto sailor = s_counter("Sailor went to sea to see what he could see.");
     std::cout << "Sailor: " << sailor << "\n";
     tally += sailor;
+    std::cout << "Tally: " << tally << "\n";
+
+    ///
+    auto account {0};
+    char to_count{'e'};
+    auto a_counters = [&](const char* str){
+        while(*str++)
+        {
+            if (*str == to_count)
+            {
+                ++account;
+            }
+        }
+        return account;
+    };
+    auto sailor2 = a_counters("Sailor went to sea to see what he could see.");
+    std::cout << "Sailor2: " << sailor2 << "\n";
+    tally += sailor2;
     std::cout << "Tally: " << tally << "\n";
 
     return 0;
