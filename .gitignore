@@ -3,3 +3,6 @@ target
 */*/target
 */*/*/target
 .DS_Store
+*/*/debug
+*/*/*/debug
+*/*/*/*/debug
