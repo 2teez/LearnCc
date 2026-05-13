@@ -1,3 +1,0 @@
-/Users/timothyadigun/prac/genPrac/CppLearn/crash_course/practiced/build/CMakeFiles/main.dir
-/Users/timothyadigun/prac/genPrac/CppLearn/crash_course/practiced/build/CMakeFiles/edit_cache.dir
-/Users/timothyadigun/prac/genPrac/CppLearn/crash_course/practiced/build/CMakeFiles/rebuild_cache.dir
