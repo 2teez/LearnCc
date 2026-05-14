@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(hello_world LANGUAGES CXX)
 add_executable(${PROJECT_NAME})
-file(GLOB source src/*.cpp)
+file(GLOB source CONFIGURE_DEPENDS src/*.cpp)
 target_sources(${PROJECT_NAME} PRIVATE ${source})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
