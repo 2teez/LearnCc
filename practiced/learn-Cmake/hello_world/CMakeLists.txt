@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 project(hello_world LANGUAGES CXX)
-add_executable(${PROJECT_NAME} hello_world.cpp)
-
+add_executable(${PROJECT_NAME})
+target_sources(${PROJECT_NAME} PRIVATE hello_world.cpp)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
