@@ -53,7 +53,7 @@ function create_cmake() {
     echo "# then change the following line to use glob to find source files" >> "${cfilename}"
     echo "# target_sources(\${PROJECT_NAME} PRIVATE \${SOURCES})" >> "${cfilename}"
     echo "target_sources(\${PROJECT_NAME} PRIVATE src/${filename}.cpp)" >> "${cfilename}"
-    echo "target_compile_features(\${PROJECT_NAME} PRIVATE cxx_std_20)" >> "${cfilename}"
+    echo "target_compile_features(\${PROJECT_NAME} PRIVATE cxx_std_23)" >> "${cfilename}"
     #echo "target_link_libraries(\${PROJECT_NAME} )" >> "${cfilename}"
 }
 
@@ -208,6 +208,16 @@ int main()
                 rustc "${filename}" && ./"${file_o_run}" && rm "${file_o_run}"
                 exit 0
             fi
+            while true; do
+                read -p "Would you want to use cmake? (y/n) " ans
+                if [[ "${ans}" == "y" ]]; then
+                    nname=$(basename "${filename}")
+                    [[ -e "${filename}" ]] && cmake -S . -B build && cmake --build build && ./build/${nname%.*} && rm -rf build
+                    exit
+                elif [[ "${ans}" == "n" ]]; then
+                    break
+                fi
+            done
             ## get the cpp standards
             default_std= #std=c++17
             while read -p "Enter a cpp standard of choice: " ans; do
