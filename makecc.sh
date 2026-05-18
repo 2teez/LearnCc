@@ -48,7 +48,11 @@ function create_cmake() {
     echo "cmake_minimum_required(VERSION 3.10)" > "${cfilename}"
     echo "project(${filename%.*} LANGUAGES CXX)" >> "${cfilename}"
     echo "add_executable(\${PROJECT_NAME})" >> "${cfilename}"
-    echo "target_sources(\${PROJECT_NAME} PRIVATE ${filename}.cpp)" >> "${cfilename}"
+    echo "# uncomment the following line to use glob to find source files" >> "${cfilename}"
+    echo "# file(GLOB_RECURSE SOURCES src/*.cpp)" >> "${cfilename}"
+    echo "# then change the following line to use glob to find source files" >> "${cfilename}"
+    echo "# target_sources(\${PROJECT_NAME} PRIVATE \${SOURCES})" >> "${cfilename}"
+    echo "target_sources(\${PROJECT_NAME} PRIVATE src/${filename}.cpp)" >> "${cfilename}"
     echo "target_compile_features(\${PROJECT_NAME} PRIVATE cxx_std_20)" >> "${cfilename}"
     #echo "target_link_libraries(\${PROJECT_NAME} )" >> "${cfilename}"
 }
