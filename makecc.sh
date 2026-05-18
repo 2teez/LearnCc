@@ -16,7 +16,7 @@ function usage() {
     echo "-a    : create a header file, with cpp file and main file."
     echo "-v    : create a cpp file with void main() function."
     echo "-b    : debugging cpp file using gdb."
-    echo "-c    : create a cmakelists file for a cpp file."
+    echo "-c    : create a cmakelists file for a cpp file, compile and run it."
     echo "-d    : delete a file."
     echo "-g    : Create a generic cpp file."
     echo "-r    : Compile and Run a cpp file"
@@ -44,12 +44,13 @@ int main(int argc, char** argv)
 # MAKE A CMakeLists.txt file for the project
 function create_cmake() {
     filename="${1}"
-    echo "cmake_minimum_required(VERSION 3.10)" > "${filename}"
-    echo "project(${filename%.*} LANGUAGES CXX)" >> "${filename}"
-    echo "add_executable(${PROJECT_NAME})" >> "${filename}"
-    echo "target_sources(${PROJECT_NAME} PRIVATE ${filename})" >> "${filename}"
-    echo "target_compile_features(${PROJECT_NAME} PRIVATE CXX_STD_20)" >> "${filename}"
-    #echo "target_link_libraries(${PROJECT_NAME} )" >> "${filename}"
+    cfilename="CMakeLists.txt"
+    echo "cmake_minimum_required(VERSION 3.10)" > "${cfilename}"
+    echo "project(${filename%.*} LANGUAGES CXX)" >> "${cfilename}"
+    echo "add_executable(\${PROJECT_NAME})" >> "${cfilename}"
+    echo "target_sources(\${PROJECT_NAME} PRIVATE ${filename}.cpp)" >> "${cfilename}"
+    echo "target_compile_features(\${PROJECT_NAME} PRIVATE cxx_std_20)" >> "${cfilename}"
+    #echo "target_link_libraries(\${PROJECT_NAME} )" >> "${cfilename}"
 }
 
 # creating a cpp file
@@ -135,6 +136,15 @@ while getopts "${optstring}" opt; do
             chmod +x "${file_o_run}"
             gdb ./"${file_o_run}"
             rm ./"${file_o_run}"
+        ;;
+
+        c)
+            filename="${OPTARG,,}"
+            create_cmake "${filename}"
+            create_file "${filename%.*}.cpp"
+            cmake -S . -B build && cmake --build build
+            ./build/${filename%.*}
+            rm -rf build
         ;;
         v)
             filename="${OPTARG,,}"
