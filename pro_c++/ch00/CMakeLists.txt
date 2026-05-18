@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.10)
+project(ch00 LANGUAGES CXX)
+add_executable(${PROJECT_NAME})
+target_sources(${PROJECT_NAME} PRIVATE main.cpp)
+target_compile_definitions(${PROJECT_NAME} PRIVATE CXX_STD_20)
