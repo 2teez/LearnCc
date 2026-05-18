@@ -146,8 +146,11 @@ while getopts "${optstring}" opt; do
             filename="${OPTARG,,}"
             create_cmake "${filename}"
             create_file "${filename%.*}.cpp"
+            mkdir -p src
+            mv "${filename%.*}.cpp" src/
             cmake -S . -B build && cmake --build build
             ./build/${filename%.*}
+            rm -rf *.rs
             rm -rf build
         ;;
         v)
