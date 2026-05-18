@@ -16,6 +16,7 @@ function usage() {
     echo "-a    : create a header file, with cpp file and main file."
     echo "-v    : create a cpp file with void main() function."
     echo "-b    : debugging cpp file using gdb."
+    echo "-c    : create a cmakelists file for a cpp file."
     echo "-d    : delete a file."
     echo "-g    : Create a generic cpp file."
     echo "-r    : Compile and Run a cpp file"
@@ -39,6 +40,17 @@ int main(int argc, char** argv)
     return 0;
 }
 "
+
+# MAKE A CMakeLists.txt file for the project
+function create_cmake() {
+    filename="${1}"
+    echo "cmake_minimum_required(VERSION 3.10)" > "${filename}"
+    echo "project(${filename%.*} LANGUAGES CXX)" >> "${filename}"
+    echo "add_executable(${PROJECT_NAME})" >> "${filename}"
+    echo "target_sources(${PROJECT_NAME} PRIVATE ${filename})" >> "${filename}"
+    echo "target_compile_features(${PROJECT_NAME} PRIVATE CXX_STD_20)" >> "${filename}"
+    #echo "target_link_libraries(${PROJECT_NAME} )" >> "${filename}"
+}
 
 # creating a cpp file
 function create_file() {
@@ -107,7 +119,7 @@ if [[ "${#}" != 2 ]]; then
     usage
 fi
 
-optstring="a:b:d:g:r:R:w:v:h"
+optstring="a:b:c:d:g:r:R:w:v:h"
 
 while getopts "${optstring}" opt; do
     case "${opt}" in
