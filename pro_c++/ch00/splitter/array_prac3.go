@@ -19,5 +19,5 @@ func separateEvenOdd(array []int) (even, odd []int) {
 			odd = append(odd, num)
 		}
 	}
-	return
+	return even, odd
 }
