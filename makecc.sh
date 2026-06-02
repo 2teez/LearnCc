@@ -103,13 +103,13 @@ function header_file() {
    title="${file%.*}"
    header_file="${title}.hpp"
    echo "
-#ifndef __"${title^^}"__
-#define __"${title^^}"__
+#ifndef \"__${title^^}__\"
+#define \"__${title^^}__\"
 // include the structure of the header file
 
-#include "\"${title}.inl\""
+#include \"${title}.inl\"
 
-#endif //__"${title^^}"__
+#endif //__${title^^}__
    " > "${header_file}"
 
   filename="${filename}.cpp"
@@ -149,8 +149,8 @@ while getopts "${optstring}" opt; do
             mkdir -p src
             mv "${filename%.*}.cpp" src/
             cmake -S . -B build && cmake --build build
-            ./build/${filename%.*}
-            rm -rf *.rs
+            ./build/"${filename%.*}"
+            rm -rf "*.rs"
             rm -rf build
         ;;
         v)
@@ -175,7 +175,7 @@ int main()
         ;;
         d)
         filename="${OPTARG,,}"
-        for file in $(ls); do
+        for file in *.*; do
             if [[ "${filename}" = "${file}" ]]; then
                 printf "Do you want to delete ${file}? [y|n]: "
                 while read ans; do
