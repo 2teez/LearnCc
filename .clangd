@@ -1,2 +1,5 @@
 CompileFlags:
-  Add: [-std=c++23, -I/opt/homebrew/include, -I.]
+  Add:
+    - -std=c++23
+    - -stdlib=libc++
+    - -fprebuilt-module-path=.clangd-modules
