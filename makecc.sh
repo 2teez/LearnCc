@@ -113,12 +113,12 @@ function create_file() {
                1)
                    echo "// ${filename}" > "${filename}"
                    echo "${FILE}" >> "${filename}"
-                   exit
+                   break
                 ;;
                2)
                    echo "// ${filename}" > "${filename}"
                    echo "${CPP23_FILE}" >> "${filename}"
-                   exit
+                   break
                ;;
                *) echo "You can only use 1 or 2 for Pre, CPP20 and post."
            esac
@@ -165,7 +165,8 @@ while getopts "${optstring}" opt; do
             filename="${OPTARG}"
             file_o_run="${filename%.*}";
             extension="${filename#*.}"
-            g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            # g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            g++-16 -Wall -std=c++23 -fmodules --compile-std-module -o "${file_o_run}" "${filename}"
             chmod +x "${file_o_run}"
             gdb ./"${file_o_run}"
             rm ./"${file_o_run}"
@@ -270,7 +271,8 @@ int main()
                 rustc "${filename}" && ./"${file_o_run}" && rm "${file_o_run}"
                 exit 0
             fi
-            g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            # g++ -Wall -std=c++17  -o "${file_o_run}" "${filename}"
+            g++-16 -std=c++23 -fmodules --compile-std-module -o "${file_o_run}" "${filename}"
             chmod +x "${file_o_run}"
             ./"${file_o_run}"
             rm "${file_o_run}"
@@ -289,7 +291,8 @@ int main()
                 impl="${ans}"
                 break
             done
-            g++ -Wall -std=c++17  -o "${file_o_run}"  "${filename}" "${impl}"
+            # g++ -Wall -std=c++17  -o "${file_o_run}"  "${filename}" "${impl}"
+            g++-16 -Wall -std=c++23 -fmodules --compile-std-module -o "${filename}" "${impl}"
             chmod +x "${file_o_run}"
             ./"${file_o_run}"
             rm "${file_o_run}"
