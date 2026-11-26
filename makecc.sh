@@ -42,6 +42,20 @@ int main(int argc, char** argv)
 }
 "
 
+CPP23_FILE="
+// A complete C++ Program
+import std;
+
+int main(int argc, char** argv)
+{
+
+    std::string hello {\"Hello, World!\"};
+    std::cout << hello << std::endl;
+
+    return 0;
+}
+"
+
 # MAKE A CMakeLists.txt file for the project
 function create_cmake() {
     filename="${1}"
@@ -64,20 +78,20 @@ function create_file() {
     filext="${filename#*.}"
 
     # create a rust file
-    rust_file="${filename}.rs"
-    echo "
-#![allow(dead_code, unused)]
+#    rust_file="${filename}.rs"
+#    echo "#![allow(dead_code, unused)]
 
-fn main() {
-  println!("Hello, World!");
-}" > "${rust_file}"
+#fn main() {
+#  println!("Hello, World!");
+#}" > "${rust_file}"  # comment out the rust file creation
+
     # make a file with cpp extension
     [[ "${filext}" == "${filename}" ]] && filename="${filename}.cpp"
 
     if [[ -e "${filename}" ]]; then
         echo "${filename}" "exist."
         printf "Do you want to overwrite it? [y|n]: "
-        while read ans; do
+        while read -r ans; do
             case "${ans,,}" in
                 y)
                 echo "// ${filename}" > "${filename}"
@@ -93,8 +107,22 @@ fn main() {
             esac
         done
     else
-        echo "// ${filename}" > "${filename}"
-        echo "${FILE}" >> "${filename}"
+        # make with Post or Pre CPP module file.
+        while read -r -p "Create Pre-CPP23 or Post-CPP23: [1 or 2]: " ans; do
+           case "${ans}" in
+               1)
+                   echo "// ${filename}" > "${filename}"
+                   echo "${FILE}" >> "${filename}"
+                   exit
+                ;;
+               2)
+                   echo "// ${filename}" > "${filename}"
+                   echo "${CPP23_FILE}" >> "${filename}"
+                   exit
+               ;;
+               *) echo "You can only use 1 or 2 for Pre, CPP20 and post."
+           esac
+        done
     fi
 }
 
@@ -179,7 +207,7 @@ int main()
         for file in *.*; do
             if [[ "${filename}" = "${file}" ]]; then
                 printf "Do you want to delete ${file}? [y|n]: "
-                while read ans; do
+                while read -r ans; do
                     case "${ans,,}" in
                         y) rm "${file}"
                            exit 0;;
@@ -199,7 +227,6 @@ int main()
           ./"${0}" -r "${filename}"
         ;;
         h) usage
-           exit 1
         ;;
         R)
             filename="${OPTARG}"
@@ -210,7 +237,7 @@ int main()
                 exit 0
             fi
             while true; do
-                read -p "Would you want to use cmake? (y/n) " ans
+                read -r -p "Would you want to use cmake? (y/n) " ans
                 if [[ "${ans}" == "y" ]]; then
                     nname=$(basename "${filename}")
                     [[ -e "${filename}" ]] && cmake -S . -B build && cmake --build build && ./build/${nname%.*} && rm -rf build
@@ -221,11 +248,11 @@ int main()
             done
             ## get the cpp standards
             default_std= #std=c++17
-            while read -p "Enter a cpp standard of choice: " ans; do
+            while read -r -p "Enter a cpp standard of choice: " ans; do
                 if [[ "${ans}" =~ ^[0-9]{2}$ ]]; then
                     default_std="c++${ans}";
                     echo "You are compiling with ${default_std} standard. Enter to continue..."
-                    read
+                    read -r
                     break
                 fi
                 echo "Invalid input. ${ans}. Only specify the year; 98, 03, 11, 17, etc."
@@ -254,7 +281,7 @@ int main()
 
             # get the implementation file name
             impl=
-            while read -e -p "Get implementation filename(s): " ans; do
+            while read -r -e -p "Get implementation filename(s): " ans; do
                 if [[ "${ans}" == "" ]]; then
                     echo "No implementation file specified."
                     continue
@@ -262,7 +289,7 @@ int main()
                 impl="${ans}"
                 break
             done
-            g++ -Wall -std=c++17  -o "${file_o_run}"  ${filename} "${impl}"
+            g++ -Wall -std=c++17  -o "${file_o_run}"  "${filename}" "${impl}"
             chmod +x "${file_o_run}"
             ./"${file_o_run}"
             rm "${file_o_run}"
