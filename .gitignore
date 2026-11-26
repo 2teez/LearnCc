@@ -13,3 +13,4 @@ target
 */*/*/ninja
 */*/*/*/ninja
 gcm.cache
+.clang-format
