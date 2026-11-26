@@ -23,6 +23,7 @@ function usage() {
     echo "-R    : Compile and Run a cpp file with a choice cpp standard."
     echo "-w    : Compile and Run a cpp file with header and implementation files."
     echo "-h    : help."
+    exit 1
 }
 
 # cpp start writeup
